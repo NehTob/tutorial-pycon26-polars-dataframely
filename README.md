@@ -6,31 +6,31 @@ Welcome to the polars + dataframely tutorial!
 
 ### Required
 
-We use the `pixi` package manager, which is backed by the `conda-forge` ecosystem. Please install it as described [here](https://pixi.prefix.dev/latest/installation/). For most people, this boils down to one of:
+We use the `uv` package manager. Please install it as described [here](https://docs.astral.sh/uv/getting-started/installation/). For most people, this boils down to one of:
 
 ```bash
-# Mac via brew
-brew install pixi
-
 # Mac / Linux
-curl -fsSL https://pixi.sh/install.sh | sh
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Mac via brew
+brew install uv
 ```
 
 For windows, refer to the link above.
 
-You can then install the local environment, as well as the local code:
+You can then install the local environment:
 
 ```bash
-pixi run postinstall
+uv sync
 ```
 
 And validate your setup by executing a simple code example:
 
 ```bash
-pixi run hello-world
+uv run hello-world
 ```
 
-Whenever you want to run any code in this tutorial, use `pixi run python your_code.py`.
+Whenever you want to run any code in this tutorial, use `uv run python your_code.py`.
 
 ### Optional but useful
 

@@ -1,5 +1,5 @@
 [project]
-name = "tutorial-pycon26-pldy"
+name = "tutorial-pycon26-polars-dataframely"
 version = "0.1.0"
 description = "PyCon 2026 tutorial on data validation with Polars and dataframely"
 authors = [
@@ -7,6 +7,15 @@ authors = [
     { name = "Oliver Borchert", email = "oliver.borchert@quantco.com" },
 ]
 requires-python = ">=3.14"
+dependencies = [
+    "dataframely>=2.9,<3",
+    "jupyter>=1.1.1",
+    "matplotlib>=3.10.8",
+    "polars>=1.39.3,<2",
+]
+
+[project.scripts]
+hello-world = "pipeline.hello_world:main"
 
 [build-system]
 requires = ["hatchling"]
@@ -14,3 +23,15 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pipeline"]
+
+[tool.uv]
+managed = true
+
+[dependency-groups]
+dev = [
+    "isort>=8.0.1",
+    "mypy>=1.20.1",
+    "pre-commit>=4.5.1",
+    "pytest>=9.0.3,<10",
+    "ruff>=0.15.10",
+]
