@@ -6,31 +6,35 @@ from polars.testing import assert_frame_equal
 
 
 def test_find_average_car_volume_by_age():
-    # Arrange
+    # PrepModelsSchema expects dimensions in meters (1-10)
     models = PrepModelsSchema.sample(
         overrides=[
-            {"model": "M1", "height": 1_500, "width": 2_000, "length": 2_500},
-            {"model": "M2", "height": 2_000, "width": 2_000, "length": 2_000},
+            {"model": "M1", "height": 1.5, "width": 2.0, "length": 2.5},
+            {"model": "M2", "height": 2.0, "width": 2.0, "length": 2.0},
         ]
     )
-    # TODO: Use `.sample` to create a policies dataframe with two policies:
-    # One with model "M1" and car age 4.5,
-    # One with model "M2" and car age 14.5
-    policies = PrepPoliciesSchema.sample(...)
+    
+    policies = PrepPoliciesSchema.sample(
+        overrides=[
+            {"model": "M1", "age_of_car": 4.5},
+            {"model": "M2", "age_of_car": 14.5},
+        ]
+    )
 
-    volume_m1 = 1e-9 * 1_500 * 2_000 * 2_500
-    volume_m2 = 1e-9 * 2_000 * 2_000 * 2_000
+    volume_m1 = 1.5 * 2.0 * 2.5 # 7.5
+    volume_m2 = 2.0 * 2.0 * 2.0 # 8.0
     change = 100 * (volume_m2 / volume_m1 - 1)
+    
     expected = AverageCarVolumeSchema.validate(
-        # TODO: Add the second, missing row for the expected dataframe
         pl.DataFrame(
-            [{"age_of_car": "(-inf, 10]", "volume": volume_m1, "change": None}, ...]
+            [
+                {"age_block": "0-10", "mean_volume": volume_m1, "relative_change_pct": None},
+                {"age_block": "10-20", "mean_volume": volume_m2, "relative_change_pct": change},
+            ]
         ),
         cast=True,
-    ).lazy()
+    )
 
-    # Act
     df = find_average_car_volume_by_age(models, policies)
 
-    # Assert
     assert_frame_equal(expected, df)

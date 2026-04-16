@@ -16,7 +16,7 @@ class RawPoliciesSchema(dy.Schema):
 class RawModelsSchema(dy.Schema):
     """Schema for the raw models table as provided by our data source"""
 
-    model = dy.String(primary_key=True)
+    model = dy.String()
     segment = dy.String()
     fuel_type = dy.String()
     airbags = dy.Int64()
@@ -53,3 +53,6 @@ class RawModelsSchema(dy.Schema):
     make = dy.UInt64()
     max_power = dy.String()
     max_torque = dy.String()
+
+    _model_age = dy.UInt64(nullable=True)
+    _scale = dy.Float64(nullable=True)

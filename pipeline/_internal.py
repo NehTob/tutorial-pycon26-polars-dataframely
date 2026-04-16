@@ -13,12 +13,10 @@ class Report:
         """
         Create a pretty-printable representation of this report.
         """
-        # Enforce laziness and collection here to ensure we are
-        #
         df_popularity, df_volume, df_safety = pl.collect_all(
             [
                 self.popularity.lazy(),
-                self.volume.lazy().sort("age_of_car"),
+                self.volume.lazy().sort("age_block"),
                 self.safety.lazy(),
             ]
         )
